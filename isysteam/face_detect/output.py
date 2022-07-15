@@ -4,12 +4,11 @@ import cv2, os
 from datetime import datetime
 from facenet_pytorch import MTCNN, InceptionResnetV1
 import torch
-import face_detect
 from torchvision import datasets
 from torch.utils.data import DataLoader
 from PIL import Image
-from face_detect.db_helper import DBHelper
-db = DBHelper(os.path.split(os.getcwd())[0] + "\db.sqlite3")
+from db_helper import DBHelper
+db = DBHelper(os.path.split(os.getcwd())[0] + "/db.sqlite3")
 
 prototxtPath=os.path.sep.join([r'model','deploy.prototxt'])
 weightsPath=os.path.sep.join([r'model','res10_300x300_ssd_iter_140000.caffemodel'])
@@ -97,6 +96,7 @@ def output_capture():
                 break
 
         cv2.destroyAllWindows()
+        vs.release()
         vs.stop()
     except Exception as ex:
         pass

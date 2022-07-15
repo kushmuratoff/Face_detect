@@ -10,13 +10,16 @@ import torch
 from torchvision import datasets
 from torch.utils.data import DataLoader
 from PIL import Image
-from face_detect.db_helper import DBHelper
-db = DBHelper(os.path.split(os.getcwd())[0] + "\db.sqlite3")
+# from isysteam.face_detect.db_helper import DBHelper
+from db_helper import DBHelper
 
+db = DBHelper(os.path.split(os.getcwd())[0] + "/db.sqlite3")
+print(os.path.split(os.getcwd())[0])
 prototxtPath=os.path.sep.join([r'model','deploy.prototxt'])
 weightsPath=os.path.sep.join([r'model','res10_300x300_ssd_iter_140000.caffemodel'])
 
 faceNet=cv2.dnn.readNet(prototxtPath,weightsPath)
+
 
 mtcnn = MTCNN(image_size=240, margin=0, min_face_size=20) # initializing mtcnn for face detection
 resnet = InceptionResnetV1(pretrained='vggface2').eval() # initializing resnet for face img to embeding conversion
@@ -169,6 +172,7 @@ def capture():
                 break
 
         cv2.destroyAllWindows()
+        vs.release()
         vs.stop()
     except Exception as ex:
         pass
